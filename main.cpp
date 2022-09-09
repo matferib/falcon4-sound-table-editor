@@ -48,11 +48,11 @@ public:
 };
 
 // TODO(sassah): implement a windows UI (WindowUI) that inherits from GenericUI.
-    class WindowUI : public GenericUI {
+class WindowUI : public GenericUI {
 public:
-    ~WindowUI() override {}
+  ~WindowUI() override {}
 
-    void Run() override {}
+  void Run() override {}
 };
 
 
