@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 
+
 namespace {
 
 // The UI abstraction is contained here. Subclasses implement the look and feel.
@@ -15,7 +16,7 @@ public:
 };
 
 // TODO(seifer): move this to a separate module to avoid polluting the main one.
-// An example class implementing GenericUI in command line style.
+// An example class implementing GenericUI in command line style (CommandLineUI).
 class CommandLineUI : public GenericUI {
 public:
   ~CommandLineUI() override {}
@@ -46,7 +47,14 @@ public:
   }
 };
 
-// TODO(sassah): implement a windows UI that inherits from GenericUI.
+// TODO(sassah): implement a windows UI (WindowUI) that inherits from GenericUI.
+class WindowUI : public GenericUI {
+public:
+  ~WindowUI() override {}
+
+  void Run() override {}
+};
+
 
 // This is the main UI entry (factory). It is the one which picks which UI it should start.
 std::unique_ptr<GenericUI> CreateUI(int argc, char** argv) {
