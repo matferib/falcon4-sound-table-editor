@@ -5,7 +5,7 @@
 
 
 namespace {
-
+//..........................Generic UI Base Class.............................//
 // The UI abstraction is contained here. Subclasses implement the look and feel.
 class GenericUI {
 public:
@@ -15,6 +15,7 @@ public:
   virtual void Run() = 0;
 };
 
+//............................Command Line UI Parent Class.....................................//
 // TODO(seifer): move this to a separate module to avoid polluting the main one.
 // An example class implementing GenericUI in command line style (CommandLineUI).
 class CommandLineUI : public GenericUI {
@@ -47,10 +48,11 @@ public:
   }
 };
 
-// TODO(sassah): implement a windows UI (WindowUI) that inherits from GenericUI.
-class WindowUI : public GenericUI {
+//.....................................Windows UI Parent Class................................//
+// TODO(sassah): implement a windows UI (WindowsUI) that inherits from GenericUI.
+class WindowsUI : public GenericUI {
 public:
-  ~WindowUI() override {}
+  ~WindowsUI() override {}
 
   void Run() override {}
 };
@@ -62,11 +64,25 @@ std::unique_ptr<GenericUI> CreateUI(int argc, char** argv) {
   return std::make_unique<CommandLineUI>();
 }
 
-}  // namespace
+std::unique_ptr<GenericUI> CreateUI(int argc, char** argv) {
+  return std::make_unique<WindowsUI>();
+}
 
+const bool Type_of_UI = ReadCommandLine(argc, argv);
+
+}  // namespace
 
 int main(int argc, char** argv) {
   auto ifg = CreateUI(argc, argv);
   ifg->Run();
   return 0;
+}
+//-----------------------------------Functions------------------------------//
+
+const bool Type_of_UI = ReadCommandLine(argc, argv);
+if (Type_of_UI) {
+  return std::make_unique<WindowsUI>();
+}
+else {
+  return std::make_unique<CommandLineUI>();
 }
