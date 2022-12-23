@@ -55,21 +55,10 @@ namespace {
 
   // This is the main UI entry (factory). It is the one which picks which UI it should start.
   std::unique_ptr<GenericUI> CreateUI(int argc, char** argv) {
-    enum Option_UI {
-      WINDOWS_UI = 1,
-      COMMANDLINE_UI = 2
-    };
-    std::cout << "Type 1 for Windows or 2 for Command Line:" << std::endl;
-    int ChooseUI{};
-    std::cin >> ChooseUI;
-    if (ChooseUI == WINDOWS_UI) {
+    if (argc > 1 && std::string(argv[1]).find("-WindowsUI")) {
       return std::make_unique<WindowsUI>();
-    }
-    else if (ChooseUI == COMMANDLINE_UI) {
+    }  else  {
       return std::make_unique<CommandLineUI>();
-    }
-    else {
-      std::cout << "You chose option: " << ChooseUI << ", is unknown!" << std::endl;
     }
   }
 }  // namespace
