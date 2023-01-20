@@ -4,25 +4,25 @@
 #include <string>
 
 namespace {
-  // The UI abstraction is contained here. Subclasses implement the look and feel.
-  class GenericUI {
-  public:
-    virtual ~GenericUI() {}
+// The UI abstraction is contained here. Subclasses implement the look and feel.
+class GenericUI {
+public:
+  virtual ~GenericUI() {}
 
-    // Fires up any initialization of the UI and runs until the program ends.
-    virtual void Run() = 0;
-  };
+  // Fires up any initialization of the UI and runs until the program ends.
+  virtual void Run() = 0;
+};
 
-  // TODO(seifer): move this to a separate module to avoid polluting the main one.
-  // An example class implementing GenericUI in command line style (CommandLineUI).
-  class CommandLineUI : public GenericUI {
-  public:
-    ~CommandLineUI() override {}
+// TODO(seifer): move this to a separate module to avoid polluting the main one.
+// An example class implementing GenericUI in command line style (CommandLineUI).
+class CommandLineUI : public GenericUI {
+public:
+  ~CommandLineUI() override {}
 
-    void Run() override {
-      enum Options {
-        OPTION_QUIT = 1
-      };
+  void Run() override {
+    enum Options {
+      OPTION_QUIT = 1
+    };
       do {
         std::cout << "Please, select an option:" << std::endl;
         std::cout << "1: quit." << std::endl;
@@ -41,24 +41,25 @@ namespace {
           break;
         }
         std::cout << "You chose option: " << option_selected << ", unknown" << std::endl;
-      } while (true);
-    }
-  };
+    } while (true);
+  }
+};
 
-  // TODO(sassah): implement a windows UI (WindowsUI) that inherits from GenericUI.
-  class WindowsUI : public GenericUI {
-  public:
-    ~WindowsUI() override {}
+// TODO(sassah): implement a windows UI (WindowsUI) that inherits from GenericUI.
+class WindowsUI : public GenericUI {
+public:
+  ~WindowsUI() override {}
 
-    void Run() override {}
-  };
+  void Run() override {}
+};
 
-  // This is the main UI entry (factory). It is the one which picks which UI it should start.
-  std::unique_ptr<GenericUI> CreateUI(int argc, char** argv) {
-    if (argc > 1 && std::string(argv[1]).find("-WindowsUI")) {
-      return std::make_unique<WindowsUI>();
-    }  else  {
-      return std::make_unique<CommandLineUI>();
+
+// This is the main UI entry (factory). It is the one which picks which UI it should start.
+std::unique_ptr<GenericUI> CreateUI(int argc, char** argv) {
+  if (argc > 1 && std::string(argv[1]).find("-WindowsUI")) {
+    return std::make_unique<WindowsUI>();
+  }  else  {
+    return std::make_unique<CommandLineUI>();
     }
   }
 }  // namespace
